@@ -1,16 +1,18 @@
 import type { IUseCase } from 'src/app/core/use-cases/generic-use-case'
 import type { UserRequest } from '../io/user-request'
 import type { UserResponse } from '../io/user-response'
-import type { DatabaseProvider } from 'src/app/database/drizzle/database.provider'
+import { DatabaseProvider } from 'src/app/database/drizzle/database.provider'
 import { usersTable } from 'src/app/database/drizzle/schema'
 import { eq } from 'drizzle-orm'
 import { UserAlreadyExistsException } from '../exceptions/user-already-exists-exception'
 import * as bcrypt from 'bcrypt'
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
 @Injectable()
 export class CreateUserUseCase implements IUseCase<UserRequest, UserResponse> {
-  constructor(private readonly database: DatabaseProvider) {}
+  constructor(
+    @Inject(DatabaseProvider) private readonly database: DatabaseProvider
+  ) {}
 
   async handle({ email, name, password }: UserRequest): Promise<UserResponse> {
     const [userWithSameEmail] = await this.database

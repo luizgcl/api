@@ -4,6 +4,12 @@ import { DatabaseModule } from './database/database.module'
 import { ConfigModule } from '@nestjs/config'
 
 @Module({
-  imports: [ConfigModule.forRoot(), UsersModule, DatabaseModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    DatabaseModule,
+    UsersModule,
+  ],
 })
 export class AppModule {}
