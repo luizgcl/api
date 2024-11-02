@@ -6,7 +6,9 @@ import { usersTable } from 'src/app/database/drizzle/schema'
 import { eq } from 'drizzle-orm'
 import { UserAlreadyExistsException } from '../exceptions/user-already-exists-exception'
 import * as bcrypt from 'bcrypt'
+import { Injectable } from '@nestjs/common'
 
+@Injectable()
 export class CreateUserUseCase implements IUseCase<UserRequest, UserResponse> {
   constructor(private readonly database: DatabaseProvider) {}
 
