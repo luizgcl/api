@@ -14,7 +14,12 @@ export class CreateUserUseCase implements IUseCase<UserRequest, UserResponse> {
     @Inject(DatabaseProvider) private readonly database: DatabaseProvider
   ) {}
 
-  async handle({ email, name, password }: UserRequest): Promise<UserResponse> {
+  async handle({
+    email,
+    name,
+    password,
+    customerId,
+  }: UserRequest): Promise<UserResponse> {
     const [userWithSameEmail] = await this.database
       .getDatabase()
       .select()
@@ -31,7 +36,7 @@ export class CreateUserUseCase implements IUseCase<UserRequest, UserResponse> {
     const [user] = await this.database
       .getDatabase()
       .insert(usersTable)
-      .values({ email, name, passwordHash })
+      .values({ email, name, passwordHash, customerId })
       .returning()
 
     return {
