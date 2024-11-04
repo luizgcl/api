@@ -1,8 +1,8 @@
 import { Command, CommandRunner } from 'nest-commander'
 import { DatabaseProvider } from 'src/app/database/drizzle/database.provider'
-import { usersTable } from 'src/app/database/drizzle/schema'
+import { customersTable, usersTable } from 'src/app/database/drizzle/schema'
 import * as bcrypt from 'bcrypt'
-import { Inject, Logger, LoggerService } from '@nestjs/common'
+import { Inject, Logger } from '@nestjs/common'
 
 @Command({
   name: 'seed',
@@ -23,12 +23,27 @@ export class SeedCommand extends CommandRunner {
     this.logger.log('Populando o banco de dados...')
 
     try {
+      const customerData = {
+        name: process.env.COMPANY_NAME,
+        socialName: process.env.COMPANY_SOCIAL_NAME,
+        email: process.env.COMPANY_EMAIL,
+        document: process.env.COMPANY_DOCUMENT,
+        documentType: process.env.COMPANY_DOCUMENT_TYPE,
+      }
+
+      const [customer] = await this.database
+        .getDatabase()
+        .insert(customersTable)
+        .values(customerData)
+        .returning()
+
       const salt = await bcrypt.genSalt()
       const passwordHash = await bcrypt.hash(process.env.ADMIN_PASSWORD, salt)
 
       const userData = {
         name: process.env.ADMIN_USERNAME,
         email: process.env.ADMIN_EMAIL,
+        customerId: customer.id,
         passwordHash,
       }
 
