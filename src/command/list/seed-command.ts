@@ -31,29 +31,36 @@ export class SeedCommand extends CommandRunner {
         documentType: process.env.COMPANY_DOCUMENT_TYPE,
       }
 
+      this.logger.log('Gerando empresa...')
       const [customer] = await this.database
         .getDatabase()
         .insert(customersTable)
         .values(customerData)
         .returning()
+      this.logger.log('Empresa cadastrada com sucesso!')
 
+      this.logger.log('Gerando usuário...')
       const salt = await bcrypt.genSalt()
-      const passwordHash = await bcrypt.hash(process.env.ADMIN_PASSWORD, salt)
+      const passwordHash = await bcrypt.hash(
+        process.env.COMPANY_USER_PASSWORD,
+        salt
+      )
 
       const userData = {
-        name: process.env.ADMIN_USERNAME,
-        email: process.env.ADMIN_EMAIL,
+        name: process.env.COMPANY_USER_USERNAME,
+        email: process.env.COMPANY_USER_EMAIL,
         customerId: customer.id,
         passwordHash,
       }
 
       await this.database.getDatabase().insert(usersTable).values(userData)
+      this.logger.log('Usuário cadastrado com sucesso!')
     } catch (e) {
       this.logger.error('Ocorreu um erro ao popular o banco de dados:')
       this.logger.error(e.message)
     } finally {
       const timeInMs = new Date().getTime() - start.getTime()
-      this.logger.log(`Operação concluída! (${timeInMs}ms)`)
+      this.logger.log(`Operação finalizada. (${timeInMs}ms)`)
     }
   }
 }
