@@ -10,8 +10,7 @@ export class DrizzleUserRepository implements UserRepository {
   constructor(
     @Inject(DatabaseProvider)
     private readonly database: DatabaseProvider
-  ) {
-  }
+  ) {}
 
   async create(data: UserSchema): Promise<UserSchema> {
     const [user] = await this.database

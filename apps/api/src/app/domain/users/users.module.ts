@@ -12,7 +12,7 @@ import { CreateUserUseCase } from './use-cases/create-user-use-case'
   providers: [
     {
       provide: UserRepository,
-      useClass: DrizzleUserRepository
+      useClass: DrizzleUserRepository,
     },
     CreateUserUseCase,
   ],

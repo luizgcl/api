@@ -3,7 +3,7 @@ import type { CustomerResponse } from '../io/customer-response'
 import { Inject, Injectable } from '@nestjs/common'
 import type { IUseCase } from '@/app/core/use-cases/generic-use-case'
 import { CustomerRepository } from '../repositories/customer-repository'
-import { CustomerAlreadyExistsException } from "@/app/domain/customers/exceptions/customer-already-exists-exception";
+import { CustomerAlreadyExistsException } from '@/app/domain/customers/exceptions/customer-already-exists-exception'
 
 @Injectable()
 export class CreateCustomerUseCase
@@ -33,7 +33,7 @@ export class CreateCustomerUseCase
       socialName,
       document,
       documentType,
-      email
+      email,
     })
 
     return {
@@ -43,7 +43,7 @@ export class CreateCustomerUseCase
       socialName: customer.socialName,
       document: customer.document,
       documentType: customer.documentType,
-      createdAt: customer.createdAt
+      createdAt: customer.createdAt,
     }
   }
 }
