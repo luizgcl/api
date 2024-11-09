@@ -1,7 +1,7 @@
 import { Command, CommandRunner } from 'nest-commander'
-import { DatabaseProvider } from 'src/app/database/drizzle/database.provider'
-import { customersTable, usersTable } from 'src/app/database/drizzle/schema'
 import { Inject, Logger } from '@nestjs/common'
+import { DatabaseProvider } from '@/app/database/drizzle/database.provider'
+import { customersTable, usersTable } from '@/app/database/drizzle/schema'
 
 @Command({
   name: 'drop-db',

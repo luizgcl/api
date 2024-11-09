@@ -1,5 +1,5 @@
+import { Exception } from '@/app/core/exceptions/base-exception'
 import { HttpStatus } from '@nestjs/common'
-import { Exception } from 'src/app/core/exceptions/base-exception'
 
 export class UserAlreadyExistsException extends Exception {
   constructor() {

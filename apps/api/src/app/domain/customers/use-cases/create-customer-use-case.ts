@@ -1,8 +1,8 @@
-import type { IUseCase } from 'src/app/core/use-cases/generic-use-case'
+import { DatabaseProvider } from '@/app/database/drizzle/database.provider'
 import type { CustomerRequest } from '../io/customer-request'
 import type { CustomerResponse } from '../io/customer-response'
 import { Inject, Injectable } from '@nestjs/common'
-import { DatabaseProvider } from 'src/app/database/drizzle/database.provider'
+import type { IUseCase } from '@/app/core/use-cases/generic-use-case'
 
 @Injectable()
 export class CreateCustomerUseCase

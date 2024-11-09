@@ -1,12 +1,12 @@
-import type { IUseCase } from 'src/app/core/use-cases/generic-use-case'
 import type { UserRequest } from '../io/user-request'
 import type { UserResponse } from '../io/user-response'
-import { DatabaseProvider } from 'src/app/database/drizzle/database.provider'
-import { usersTable } from 'src/app/database/drizzle/schema'
 import { eq } from 'drizzle-orm'
 import { UserAlreadyExistsException } from '../exceptions/user-already-exists-exception'
 import * as bcrypt from 'bcrypt'
 import { Inject, Injectable } from '@nestjs/common'
+import { DatabaseProvider } from '@/app/database/drizzle/database.provider'
+import type { IUseCase } from '@/app/core/use-cases/generic-use-case'
+import { usersTable } from '@/app/database/drizzle/schema'
 
 @Injectable()
 export class CreateUserUseCase implements IUseCase<UserRequest, UserResponse> {

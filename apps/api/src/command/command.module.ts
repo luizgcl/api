@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common'
 import { SeedCommand } from './list/seed-command'
-import { DatabaseModule } from 'src/app/database/database.module'
+
 import { ConfigModule } from '@nestjs/config'
 import { DropDatabaseCommand } from './list/drop-database'
+import { DatabaseModule } from '@/app/database/database.module'
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), DatabaseModule],
