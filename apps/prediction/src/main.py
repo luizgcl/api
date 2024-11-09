@@ -9,10 +9,14 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 import base64
+import os
+from dotenv import load_dotenv
 
-url = "https://ancient-jelly-14.webhook.cool"
+load_dotenv()
 
-client = redis.StrictRedis(host='localhost', port=6379, db=0)
+url = os.getenv('RETURN_API_URL')
+
+client = redis.StrictRedis(host=os.getenv('REDIS_HOST'), port=os.getenv('REDIS_PORT'), db=0)
 
 pipeline = ChronosPipeline.from_pretrained(
         "amazon/chronos-t5-tiny",
