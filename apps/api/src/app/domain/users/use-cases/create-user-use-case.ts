@@ -1,6 +1,6 @@
 import type { IUseCase } from '@/app/core/use-cases/generic-use-case'
-import type { UserRepository } from '@/app/domain/users/repositories/user-repository'
-import { Injectable } from '@nestjs/common'
+import { UserRepository } from '@/app/domain/users/repositories/user-repository'
+import { Inject, Injectable } from '@nestjs/common'
 import * as bcrypt from 'bcrypt'
 import { UserAlreadyExistsException } from '../exceptions/user-already-exists-exception'
 import type { UserRequest } from '../io/user-request'
@@ -8,7 +8,10 @@ import type { UserResponse } from '../io/user-response'
 
 @Injectable()
 export class CreateUserUseCase implements IUseCase<UserRequest, UserResponse> {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    @Inject(UserRepository)
+    private readonly userRepository: UserRepository
+  ) {}
 
   async handle({
     email,
