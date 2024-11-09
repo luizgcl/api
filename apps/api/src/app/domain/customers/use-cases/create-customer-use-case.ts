@@ -3,6 +3,7 @@ import type { CustomerResponse } from '../io/customer-response'
 import { Inject, Injectable } from '@nestjs/common'
 import type { IUseCase } from '@/app/core/use-cases/generic-use-case'
 import { CustomerRepository } from '../repositories/customer-repository'
+import { CustomerAlreadyExistsException } from "@/app/domain/customers/exceptions/customer-already-exists-exception";
 
 @Injectable()
 export class CreateCustomerUseCase
@@ -24,7 +25,25 @@ export class CreateCustomerUseCase
       await this.customerRepository.findByEmail(email)
 
     if (customerWithSameEmail) {
+      throw new CustomerAlreadyExistsException()
     }
-    return {}
+
+    const customer = await this.customerRepository.create({
+      name,
+      socialName,
+      document,
+      documentType,
+      email
+    })
+
+    return {
+      id: customer.id,
+      email: customer.email,
+      name: customer.name,
+      socialName: customer.socialName,
+      document: customer.document,
+      documentType: customer.documentType,
+      createdAt: customer.createdAt
+    }
   }
 }
