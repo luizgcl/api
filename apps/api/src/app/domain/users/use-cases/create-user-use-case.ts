@@ -1,18 +1,14 @@
+import type { IUseCase } from '@/app/core/use-cases/generic-use-case'
+import type { UserRepository } from '@/app/domain/users/repositories/user-repository'
+import { Injectable } from '@nestjs/common'
+import * as bcrypt from 'bcrypt'
+import { UserAlreadyExistsException } from '../exceptions/user-already-exists-exception'
 import type { UserRequest } from '../io/user-request'
 import type { UserResponse } from '../io/user-response'
-import { eq } from 'drizzle-orm'
-import { UserAlreadyExistsException } from '../exceptions/user-already-exists-exception'
-import * as bcrypt from 'bcrypt'
-import { Inject, Injectable } from '@nestjs/common'
-import { DatabaseProvider } from '@/app/database/drizzle/database.provider'
-import type { IUseCase } from '@/app/core/use-cases/generic-use-case'
-import { usersTable } from '@/app/database/drizzle/schema'
 
 @Injectable()
 export class CreateUserUseCase implements IUseCase<UserRequest, UserResponse> {
-  constructor(
-    @Inject(DatabaseProvider) private readonly database: DatabaseProvider
-  ) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   async handle({
     email,
@@ -20,11 +16,7 @@ export class CreateUserUseCase implements IUseCase<UserRequest, UserResponse> {
     password,
     customerId,
   }: UserRequest): Promise<UserResponse> {
-    const [userWithSameEmail] = await this.database
-      .getDatabase()
-      .select()
-      .from(usersTable)
-      .where(eq(usersTable.email, email))
+    const userWithSameEmail = await this.userRepository.findByEmail(email)
 
     if (userWithSameEmail) {
       throw new UserAlreadyExistsException()
@@ -33,11 +25,12 @@ export class CreateUserUseCase implements IUseCase<UserRequest, UserResponse> {
     const salt = await bcrypt.genSalt()
     const passwordHash = await bcrypt.hash(password, salt)
 
-    const [user] = await this.database
-      .getDatabase()
-      .insert(usersTable)
-      .values({ email, name, passwordHash, customerId })
-      .returning()
+    const user = await this.userRepository.create({
+      email,
+      name,
+      passwordHash,
+      customerId,
+    })
 
     return {
       id: user.id,

@@ -61,9 +61,7 @@
         "customers_email_unique": {
           "name": "customers_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -118,12 +116,8 @@
           "name": "users_customer_id_customers_id_fk",
           "tableFrom": "users",
           "tableTo": "customers",
-          "columnsFrom": [
-            "customer_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["customer_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -133,9 +127,7 @@
         "users_email_unique": {
           "name": "users_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -147,10 +139,7 @@
     "public.document_type": {
       "name": "document_type",
       "schema": "public",
-      "values": [
-        "CPF",
-        "CNPJ"
-      ]
+      "values": ["CPF", "CNPJ"]
     }
   },
   "schemas": {},
