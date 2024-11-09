@@ -12,11 +12,14 @@ import base64
 import os
 from dotenv import load_dotenv
 
+from databases.postgres.connection import handle_connect as pg_connect
+from databases.redis.connection import handle_connect as redis_connect
+
 load_dotenv()
 
 url = os.getenv('RETURN_API_URL')
 
-client = redis.StrictRedis(host=os.getenv('REDIS_HOST'), port=os.getenv('REDIS_PORT'), db=0)
+client = redis_connect()
 
 pipeline = ChronosPipeline.from_pretrained(
         "amazon/chronos-t5-tiny",
