@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
-import { UsersModule } from './domain/users/users.module'
-import { DatabaseModule } from './database/database.module'
 import { ConfigModule } from '@nestjs/config'
-import { CustomersModule } from './domain/customers/customers.module';
+import { DatabaseModule } from './database/database.module'
+import { CustomersModule } from './domain/customers/customers.module'
+import { UsersModule } from './domain/users/users.module'
 
 @Module({
   imports: [
