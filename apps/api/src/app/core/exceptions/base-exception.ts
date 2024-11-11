@@ -1,15 +1,11 @@
-import { HttpStatus } from '@nestjs/common'
+import { HttpException, HttpStatus } from '@nestjs/common'
 
-export abstract class Exception extends Error {
+export abstract class Exception extends HttpException {
   protected constructor(
-    private readonly _code: string,
+    code: string,
     message: string,
-    private readonly status: HttpStatus = HttpStatus.BAD_REQUEST
+    status: HttpStatus = HttpStatus.BAD_REQUEST
   ) {
-    super(message)
-  }
-
-  get code(): string {
-    return this._code
+    super({ code, message }, status)
   }
 }
