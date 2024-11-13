@@ -4,7 +4,7 @@ import {
   type AuthenticateUserResponse,
   AuthenticateUserUseCase,
 } from '@/app/domain/auth/use-cases/AuthenticateUserUseCase'
-import { IsPublic } from '@/app/domain/auth/decorators/public.decorator'
+import { Public } from '@/app/domain/auth/decorators/public.decorator'
 
 @Controller('auth')
 export class AuthController {
@@ -13,8 +13,8 @@ export class AuthController {
     private readonly authenticateUserUseCase: AuthenticateUserUseCase
   ) {}
 
+  @Public()
   @Post('login')
-  @IsPublic()
   async login(
     @Body() authenticateRequest: AuthenticateUserParams
   ): Promise<AuthenticateUserResponse> {
