@@ -1,7 +1,11 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common'
+import { Body, Controller, Inject, Post, UsePipes } from '@nestjs/common'
 import { CreateCustomerUseCase } from '@/app/domain/customers/use-cases/create-customer-use-case'
-import type { CustomerRequest } from '@/app/domain/customers/io/customer-request'
+import {
+  customerRequestSchema,
+  type CustomerRequest,
+} from '@/app/domain/customers/io/customer-request'
 import type { CustomerResponse } from '@/app/domain/customers/io/customer-response'
+import { ZodValidationPipe } from '@/app/core/pipes/zod-validation.pipe'
 
 @Controller('customers')
 export class CustomerController {
@@ -11,6 +15,7 @@ export class CustomerController {
   ) {}
 
   @Post()
+  @UsePipes(new ZodValidationPipe(customerRequestSchema))
   async create(
     @Body() customerRequest: CustomerRequest
   ): Promise<CustomerResponse> {

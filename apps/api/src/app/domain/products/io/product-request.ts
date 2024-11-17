@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const productRequestSchema = z.object({
+export const productRequestSchema = z.object({
   name: z.string(),
   ean: z.string(),
   description: z.string(),

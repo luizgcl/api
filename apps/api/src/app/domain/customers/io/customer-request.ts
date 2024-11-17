@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const customerSchema = z.object({
+export const customerRequestSchema = z.object({
   name: z.string(),
   socialName: z.string(),
   email: z.string().email(),
@@ -8,4 +8,4 @@ const customerSchema = z.object({
   documentType: z.enum(['CPF', 'CNPJ']).default('CPF'),
 })
 
-export type CustomerRequest = z.infer<typeof customerSchema>
+export type CustomerRequest = z.infer<typeof customerRequestSchema>

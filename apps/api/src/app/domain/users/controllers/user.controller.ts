@@ -1,6 +1,7 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common'
+import { Body, Controller, Inject, Post, UsePipes } from '@nestjs/common'
 import { CreateUserUseCase } from '../use-cases/create-user-use-case'
-import type { UserRequest } from '../io/user-request'
+import { userRequestSchema, type UserRequest } from '../io/user-request'
+import { ZodValidationPipe } from '@/app/core/pipes/zod-validation.pipe'
 
 @Controller('users')
 export class UserController {
@@ -10,6 +11,7 @@ export class UserController {
   ) {}
 
   @Post()
+  @UsePipes(new ZodValidationPipe(userRequestSchema))
   async createUser(@Body() userRequest: UserRequest) {
     await this.createUserUseCase.handle(userRequest)
   }
