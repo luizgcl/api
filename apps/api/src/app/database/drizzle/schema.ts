@@ -1,4 +1,11 @@
-import { pgEnum, pgTable, text, timestamp, varchar } from 'drizzle-orm/pg-core'
+import {
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  unique,
+  varchar,
+} from 'drizzle-orm/pg-core'
 import { createId } from '@paralleldrive/cuid2'
 
 export const documentType = pgEnum('document_type', ['CPF', 'CNPJ'])
@@ -31,3 +38,26 @@ export const usersTable = pgTable('users', {
     .notNull()
     .defaultNow(),
 })
+
+export const productsTable = pgTable(
+  'products',
+  {
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => createId()),
+    ean: text().notNull(),
+    name: varchar().notNull(),
+    description: text().notNull(),
+    customerId: text('customer_id')
+      .references(() => customersTable.id)
+      .notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  table => {
+    return {
+      unq: unique('unique_product_index').on(table.ean, table.customerId),
+    }
+  }
+)

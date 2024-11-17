@@ -8,6 +8,27 @@
       "when": 1730738632540,
       "tag": "0000_white_zuras",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1731650187256,
+      "tag": "0001_exotic_odin",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1731847272118,
+      "tag": "0002_lyrical_titania",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1731847837699,
+      "tag": "0003_loving_betty_brant",
+      "breakpoints": true
     }
   ]
 }

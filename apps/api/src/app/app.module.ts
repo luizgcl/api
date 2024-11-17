@@ -4,6 +4,7 @@ import { DatabaseModule } from './database/database.module'
 import { CustomersModule } from './domain/customers/customers.module'
 import { UsersModule } from './domain/users/users.module'
 import { AuthModule } from '@/app/domain/auth/auth.module'
+import { ProductsModule } from './domain/products/products.module'
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AuthModule } from '@/app/domain/auth/auth.module'
     AuthModule,
     UsersModule,
     CustomersModule,
+    ProductsModule,
   ],
 })
 export class AppModule {}
