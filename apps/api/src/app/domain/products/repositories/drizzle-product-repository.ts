@@ -73,11 +73,12 @@ export class DrizzleProductRepository implements ProductRepository {
     return product
   }
 
-  async findAll(): Promise<ProductSchema[]> {
+  async findAll(customerId: string): Promise<ProductSchema[]> {
     const products = await this.database
       .getDatabase()
       .select()
       .from(productsTable)
+      .where(eq(productsTable.customerId, customerId))
 
     return products
   }
