@@ -8,6 +8,7 @@ import { JwtStrategy } from '@/app/domain/auth/strategies/jwt.strategy'
 import { UserRepository } from '@/app/domain/users/repositories/user-repository'
 import { DrizzleUserRepository } from '@/app/domain/users/repositories/drizzle-user-repository'
 import { DatabaseModule } from '@/app/database/database.module'
+import { GetUserByTokenUseCase } from './use-cases/GetUserByTokenUseCase'
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { DatabaseModule } from '@/app/database/database.module'
       useClass: DrizzleUserRepository,
     },
     AuthenticateUserUseCase,
+    GetUserByTokenUseCase,
   ],
 })
 export class AuthModule {}

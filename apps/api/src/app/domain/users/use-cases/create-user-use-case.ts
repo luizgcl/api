@@ -39,6 +39,7 @@ export class CreateUserUseCase implements IUseCase<UserRequest, UserResponse> {
       id: user.id,
       email: user.email,
       name: user.name,
+      customerId: user.customerId,
       createdAt: user.createdAt,
     }
   }

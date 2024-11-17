@@ -14,7 +14,10 @@ export class CreateProductUseCase
   ) {}
 
   async handle(data: ProductRequest): Promise<ProductResponse> {
-    const productWithSameCode = await this.productRepository.findByEan(data.ean)
+    const productWithSameCode = await this.productRepository.findByEan(
+      data.ean,
+      data.customerId
+    )
 
     if (productWithSameCode) {
       throw new ProductAlreadyExistsException()
