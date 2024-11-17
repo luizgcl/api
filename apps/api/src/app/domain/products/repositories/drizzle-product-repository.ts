@@ -3,7 +3,7 @@ import type { ProductSchema } from '../schemas/product.schema'
 import type { ProductRepository } from './product-repository'
 import { Inject, Injectable } from '@nestjs/common'
 import { productsTable } from '@/app/database/drizzle/schema'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 
 @Injectable()
 export class DrizzleProductRepository implements ProductRepository {
@@ -37,22 +37,38 @@ export class DrizzleProductRepository implements ProductRepository {
     return product
   }
 
-  async findByName(name: string): Promise<ProductSchema | null> {
+  async findByName(
+    name: string,
+    customerId: string
+  ): Promise<ProductSchema | null> {
     const [product] = await this.database
       .getDatabase()
       .select()
       .from(productsTable)
-      .where(eq(productsTable.name, name))
+      .where(
+        and(
+          eq(productsTable.name, name),
+          eq(productsTable.customerId, customerId)
+        )
+      )
 
     return product
   }
 
-  async findByEan(eanCode: string): Promise<ProductSchema | null> {
+  async findByEan(
+    eanCode: string,
+    customerId: string
+  ): Promise<ProductSchema | null> {
     const [product] = await this.database
       .getDatabase()
       .select()
       .from(productsTable)
-      .where(eq(productsTable.ean, eanCode))
+      .where(
+        and(
+          eq(productsTable.ean, eanCode),
+          eq(productsTable.customerId, customerId)
+        )
+      )
 
     return product
   }
